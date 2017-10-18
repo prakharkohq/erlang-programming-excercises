@@ -1,4 +1,4 @@
--module(link).
+-module(e62_link).
 -export([start/0, stop/0]).
 -export([wait/0, signal/0]).
 -export([init/0]).

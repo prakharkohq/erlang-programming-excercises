@@ -1,6 +1,9 @@
--module(shapes).
+-module(e74).
 -export([perimeter/1, area/1]).
--include("shapes.hrl").
+
+-record(circle, {radius}).
+-record(triangle, {a, b, c}).
+-record(rectangle, {width, height}).
 
 perimeter(#circle{radius=R}) ->
     R * 2 * math:pi();

@@ -1,4 +1,4 @@
--module(monitor).
+-module(e62_monitor).
 -export([start/0, stop/0]).
 -export([wait/0, signal/0]).
 -export([init/0]).
