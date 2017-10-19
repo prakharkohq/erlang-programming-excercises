@@ -13,8 +13,7 @@ idle() ->
   receive
     {Number, incoming} -> ringing(Number);
     off_hook -> dial();
-    {turn_off, From} -> From ! {turned_off, self()};
-    _ -> idle()
+    {turn_off, From} -> From ! {turned_off, self()}
   end.
 
 ringing(Number) ->
@@ -24,8 +23,7 @@ ringing(Number) ->
     {Number, off_hook} ->
       e53:send_event(phone, {no_billing, incoming, self(), Number}),
       connected(Number);
-    {turn_off, From} -> From ! {turned_off, self()};
-    _ -> ringing(Number)
+    {turn_off, From} -> From ! {turned_off, self()}
   end.
 
 dial() ->
@@ -33,8 +31,7 @@ dial() ->
   receive
     on_hook -> idle();
     {Number, call} -> calling(Number);
-    {turn_off, From} -> From ! {turned_off, self()};
-    _ -> dial()
+    {turn_off, From} -> From ! {turned_off, self()}
   end.
 
 calling(Number) ->
@@ -44,8 +41,7 @@ calling(Number) ->
     {Number, other_off_hook} ->
       e53:send_event(phone, {start_billing, outgoing, self(), Number}),
       connected(Number);
-    {turn_off, From} -> From ! {turned_off, self()};
-    _ -> calling(Number)
+    {turn_off, From} -> From ! {turned_off, self()}
   after 10000 -> dial() end.
 
 connected(Number) ->
@@ -59,6 +55,5 @@ connected(Number) ->
       idle();
     {turn_off, From} ->
       e53:send_event(phone, {stop_billing, turned_off, self(), Number}),
-      From ! {turned_off, self()};
-    _ -> connected(Number)
+      From ! {turned_off, self()}
   end.
